@@ -7,7 +7,6 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {APP_INITIALIZER} from "@angular/core";
 import {AppConfig} from "./config/app.config";
 import {HttpClientModule} from '@angular/common/http';
-import {IAppConfig} from './config/app-config.model';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -15,6 +14,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {RouterModule} from '@angular/router';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -36,7 +36,8 @@ export function initializeApp(appConfig: AppConfig) {
     MatInputModule,
     MatIconModule,
     MatButtonModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    RouterModule
   ],
   providers: [
     AppConfig,

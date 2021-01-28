@@ -1,15 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {AppConfig} from './config/app.config';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
-  title: string;
-
-  ngOnInit(): void {
-    this.title = AppConfig.settings.system.title;
-  }
+export class AppComponent {
+  title = 'frontend';
 }
