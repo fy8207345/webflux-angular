@@ -15,6 +15,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {RouterModule} from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -37,7 +38,8 @@ export function initializeApp(appConfig: AppConfig) {
     MatIconModule,
     MatButtonModule,
     MatButtonToggleModule,
-    RouterModule
+    RouterModule,
+    NgbModule.forRoot()
   ],
   providers: [
     AppConfig,
