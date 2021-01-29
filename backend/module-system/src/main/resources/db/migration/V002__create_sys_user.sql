@@ -14,4 +14,4 @@ create table sys_user (
     create_date datetime,
     update_date datetime,
     version int
-) engine = innodb;
+) engine = innodb charset = utf8mb4 collate = utf8mb4_0900_ai_ci;
