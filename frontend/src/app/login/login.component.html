@@ -1,28 +1,37 @@
-<div class="app-login">
-  <form (ngSubmit)="onSubmit()" [formGroup]="loginForm" class="login-form">
-    <mat-form-field class="form-item-row">
-      <mat-label>用户名</mat-label>
-      <label>
-        <input matInput type="text" [formControl]="username">
-      </label>
-      <button mat-button *ngIf="username.value" matSuffix mat-icon-button aria-label="Clear" (click)="username.setValue('')">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
+<div class="login-container d-flex flex-column">
+  <div class="login-header">
+    <mat-toolbar color="primary">
+      <span>{{title}}</span>
+    </mat-toolbar>
+  </div>
+  <div class="login-content d-flex justify-content-center align-items-center">
+    <form (ngSubmit)="onSubmit()" [formGroup]="loginForm" class="login-form">
+      <mat-form-field class="form-item-row">
+        <mat-label>用户名</mat-label>
+        <label>
+          <input matInput type="text" [formControl]="username">
+        </label>
+        <button mat-button *ngIf="username.value" matSuffix mat-icon-button aria-label="Clear" (click)="username.setValue('')">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
 
-    <mat-form-field class="form-item-row">
-      <mat-label>密码</mat-label>
-      <label>
-        <input matInput type="text" [formControl]="password">
-      </label>
-      <button mat-button *ngIf="password.value" matSuffix mat-icon-button aria-label="Clear" (click)="password.setValue('')">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
+      <mat-form-field class="form-item-row">
+        <mat-label>密码</mat-label>
+        <label>
+          <input matInput type="text" [formControl]="password">
+        </label>
+        <button mat-button *ngIf="password.value" matSuffix mat-icon-button aria-label="Clear" (click)="password.setValue('')">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
 
-    <div class="form-item-row flex flex-justify-content">
-      <button mat-raised-button type="submit" [disabled]="!loginForm.valid">提交</button>
-    </div>
-  </form>
-
+      <div class="form-item-row flex flex-justify-content">
+        <button mat-raised-button [disabled]="!loginForm.valid">提交</button>
+      </div>
+    </form>
+  </div>
+  <div class="login-footer d-flex justify-content-end align-items-center">
+    Footer
+  </div>
 </div>

@@ -1,7 +1,29 @@
+@import "styles";
 
 .form-item-row{
   width: 100%;
 }
+.login-container{
+  height: 100%;
+}
 .login-form{
   padding: 20px;
+  min-width: 800px;
+  border: mat-color($primary) 1px solid;
+  border-radius: 10px;
+  background-color: white;
+}
+.login-header{
+  flex: 0 0 auto;
+}
+.login-content{
+  flex: 1 0 auto;
+  background-color: #F0F0F0;
+}
+.login-footer{
+  flex: 0 0 auto;
+  min-height: 64px;
+  background-color: mat-color($primary);
+  padding: 0 16px;
+  color: white;
 }
