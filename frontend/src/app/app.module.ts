@@ -14,7 +14,9 @@ import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
-import {RouterModule} from '@angular/router';
+import { IndexComponent } from './index/index.component';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {AppRoutingModule} from './app-routing.module';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -23,7 +25,8 @@ export function initializeApp(appConfig: AppConfig) {
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    IndexComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +40,8 @@ export function initializeApp(appConfig: AppConfig) {
     MatIconModule,
     MatButtonModule,
     MatButtonToggleModule,
-    RouterModule,
+    AppRoutingModule,
+    MatSidenavModule
   ],
   providers: [
     AppConfig,

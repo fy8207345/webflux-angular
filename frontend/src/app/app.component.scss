@@ -1,9 +1,13 @@
-@import "~@angular/material/theming";
+@import "styles";
+
 .login-container{
-  width: 800px;
-  min-height: 300px;
-  border: black 1px solid;
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
+  background-color: white;
+  max-width: 800px;
+  max-height: 300px;
+  border-radius: 20px;
+  color: white;
+  border: mat-color($primary) 1px solid;
+}
+.h-100-minus-app-bar{
+  height: calc(100% - mat-get);
 }

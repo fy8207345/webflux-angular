@@ -1,0 +1,30 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.flex{
+  display: flex;
+}
+.flex-justify-content-center{
+  justify-content: center;
+}
+.flex-align-content-center{
+  align-items: center;
+  align-content: center;
+}
+@import "~@angular/material/theming";
+
+$app-primary: mat-palette($mat-indigo, A200, A100, A400);
+$app-accent: mat-palette($mat-blue, A200, A100, A400);
+$theme: mat-light-theme((
+  color: (
+    primary: $app-primary,
+    accent: $app-accent,
+  )
+));
+//更改material组件的主题
+@include angular-material-theme($theme);
+$color: mat-get-color-config($theme);
+
+$primary: map-get($color, primary);
+$accent: map-get($color, accent);

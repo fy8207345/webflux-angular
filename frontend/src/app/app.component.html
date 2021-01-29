@@ -1,8 +1,18 @@
-<p>
-  <mat-toolbar color="primary">
-    <span>{{title}}</span>
-  </mat-toolbar>
-</p>
-<div class="login-container mx-auto">
-  <app-login ></app-login>
-</div>
+<mat-sidenav-container fullscreen>
+  <mat-sidenav-content>
+    <p>
+      <mat-toolbar color="primary">
+        <span>{{title}}</span>
+      </mat-toolbar>
+    </p>
+<!--    <div class="w-100 h-100-minus-app-bar flex flex-align-content-center flex-justify-content-center">-->
+<!--      <app-login class="login-container"></app-login>-->
+<!--    </div>-->
+    <router-outlet>
+
+    </router-outlet>
+    <footer>
+      Footer
+    </footer>
+  </mat-sidenav-content>
+</mat-sidenav-container>
