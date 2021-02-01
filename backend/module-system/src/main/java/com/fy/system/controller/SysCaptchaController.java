@@ -1,6 +1,9 @@
 package com.fy.system.controller;
 
+import com.fy.system.model.CaptchaResponse;
+import com.fy.system.model.CaptchaValidateResponse;
 import com.fy.system.service.CaptchaService;
+import com.fy.system.utils.IpUtils;
 import com.fy.system.utils.TokenUtils;
 import com.google.code.kaptcha.Producer;
 import lombok.NonNull;
@@ -11,9 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
@@ -21,6 +22,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -38,29 +40,32 @@ public class SysCaptchaController {
         return Mono.create(monoSink -> {
             ServerHttpRequest request = exchange.getRequest();
             String text = producer.createText();
-            captchaService.save(TokenUtils.getToken(request), text).subscribe(aBoolean -> {
-                if(aBoolean){
-                    ServerHttpResponse response = exchange.getResponse();
-                    HttpHeaders headers = response.getHeaders();
-                    headers.set("Expires", "0");
-                    headers.set("Cache-Control", "no-store, no-cache, must-revalidate");
-                    headers.set("Cache-Control", "post-check=0, pre-check=0");
-                    headers.set("Pragma", "no-cache");
-                    headers.setContentType(MediaType.IMAGE_JPEG);
-                    BufferedImage image = producer.createImage(text);
-                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                    try {
-                        ImageIO.write(image, "jpeg", outputStream);
-                    } catch (IOException e) {
-                        monoSink.error(e);
-                    }
-                    byte[] bytes = outputStream.toByteArray();
-                    DataBuffer dataBuffer = response.bufferFactory().wrap(bytes);
-                    monoSink.success(dataBuffer);
-                }else {
-                    monoSink.error(new RuntimeException("缓存验证码失败"));
-                }
-            });
+            ServerHttpResponse response = exchange.getResponse();
+            HttpHeaders headers = response.getHeaders();
+            headers.set("Expires", "0");
+            headers.set("Cache-Control", "no-store, no-cache, must-revalidate");
+            headers.set("Cache-Control", "post-check=0, pre-check=0");
+            headers.set("Pragma", "no-cache");
+            headers.setContentType(MediaType.IMAGE_JPEG);
+            headers.set("secret", IpUtils.getIpAddr(request));
+            headers.set("once", UUID.randomUUID().toString());
+            BufferedImage image = producer.createImage(text);
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            try {
+                ImageIO.write(image, "jpeg", outputStream);
+            } catch (IOException e) {
+                monoSink.error(e);
+            }
+            byte[] bytes = outputStream.toByteArray();
+            DataBuffer dataBuffer = response.bufferFactory().wrap(bytes);
+            monoSink.success(dataBuffer);
+        });
+    }
+
+    @PostMapping("/validate")
+    public Mono<CaptchaValidateResponse> validate(@RequestBody CaptchaResponse captchaResponse, ServerWebExchange exchange){
+        return Mono.create(sink -> {
+
         });
     }
 }
