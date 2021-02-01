@@ -12,4 +12,5 @@ public class WebFluxConfig implements WebFluxConfigurer {
     public void configureArgumentResolvers(ArgumentResolverConfigurer configurer) {
         configurer.addCustomResolver(new ReactivePageableHandlerMethodArgumentResolver());
     }
+
 }

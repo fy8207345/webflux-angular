@@ -136,6 +136,7 @@
     "use-lifecycle-interface": true,
     "use-pipe-transform-interface": true,
     "no-angle-bracket-type-assertion": false,
+    "no-trailing-whitespace": false,
     "directive-selector": [
       true,
       "attribute",

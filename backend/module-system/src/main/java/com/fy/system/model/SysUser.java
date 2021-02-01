@@ -1,5 +1,7 @@
 package com.fy.system.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fy.common.model.BaseModel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -27,11 +29,6 @@ public class SysUser extends BaseModel {
      * 密码
      */
     private String password;
-
-    /**
-     * 密码盐
-     */
-    private String salt;
 
     /**
      * 状态
@@ -62,4 +59,14 @@ public class SysUser extends BaseModel {
      * 性别
      */
     private Gender gender;
+
+    @JsonIgnore
+    public String getPassword() {
+        return password;
+    }
+
+    @JsonProperty
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

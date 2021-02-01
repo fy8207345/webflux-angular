@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {APP_INITIALIZER} from "@angular/core";
 import {AppConfig} from "./config/app.config";
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -17,6 +17,8 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { IndexComponent } from './index/index.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {AppRoutingModule} from './app-routing.module';
+import {AppIntercepter} from './http/http.intercepter';
+import {APP_BASE_HREF} from '@angular/common';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -50,6 +52,11 @@ export function initializeApp(appConfig: AppConfig) {
       useFactory: initializeApp,
       deps: [AppConfig], multi: true
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AppIntercepter,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

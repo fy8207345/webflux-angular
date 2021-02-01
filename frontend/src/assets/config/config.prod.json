@@ -17,7 +17,7 @@
   "apiServer": {
     "metadata": "https://#{apiServerPrefix}.demo.com/api/v1.0/",
     "rule": "https://#{apiServerPrefix}.demo.com/api/v1.0/",
-    "baseUrl": "http://localhost"
+    "baseUrl": "http://localhost:8080"
   },
   "system": {
     "title": "系统名称-Production"

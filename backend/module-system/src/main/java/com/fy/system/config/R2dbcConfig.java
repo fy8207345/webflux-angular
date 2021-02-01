@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono;
 
 
 @Configuration
-@EnableR2dbcRepositories
+@EnableR2dbcRepositories(basePackages = "com.fy.system.repository")
 @EnableR2dbcAuditing
 public class R2dbcConfig {
 

@@ -10,6 +10,7 @@ import {AppConfig} from '../config/app.config';
 })
 export class LoginComponent implements OnInit {
   title = AppConfig.settings.system.title;
+  captchaPath: string;
 
   constructor(private http: HttpClient) { }
 
@@ -24,9 +25,14 @@ export class LoginComponent implements OnInit {
     this.loginForm.statusChanges.subscribe(status => {
 
     })
+    this.setCaptchaPath()
   }
 
   onSubmit(){
     console.log('form, ', this.loginForm.value)
+  }
+
+  setCaptchaPath() {
+    this.captchaPath = AppConfig.settings.apiServer.baseUrl + "/captcha?t=" + new Date().getTime();
   }
 }

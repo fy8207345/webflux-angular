@@ -29,7 +29,7 @@
 
       <table class="form-item-row" cellspacing="0">
         <tr>
-          <td>
+          <td width="50%">
             <mat-form-field class="form-item-row" appearance="outline">
               <mat-label>验证码</mat-label>
               <label>
@@ -40,16 +40,8 @@
               </button>
             </mat-form-field>
           </td>
-          <td>
-            <mat-form-field class="form-item-row">
-              <mat-label>验证码</mat-label>
-              <label>
-                <input matInput type="text" [formControl]="password">
-              </label>
-              <button mat-button *ngIf="password.value" matSuffix mat-icon-button aria-label="Clear" (click)="password.setValue('')">
-                <mat-icon>close</mat-icon>
-              </button>
-            </mat-form-field>
+          <td width="50%" class="d-flex align-items-start">
+            <img [src]="captchaPath" style="margin: 0.25em 0;" (click)="setCaptchaPath()">
           </td>
         </tr>
       </table>

@@ -1,14 +1,25 @@
-db:
-  name: webflux-angular
 spring:
-  r2dbc:
-    username: root
-    password: root
-    url: r2dbc:mysql://localhost:3306/${db.name}?serverZoneId=Asia/Shanghai&tcpKeepAlive=true&tcpNoDelay=true
-    pool:
-      initial-size: 2
-  flyway:
-    url: jdbc:mysql://localhost:3306/mysql?serverTimezone=Asia/Shanghai
-    user: ${spring.r2dbc.username}
-    password: ${spring.r2dbc.password}
-    default-schema: ${db.name}
+  profiles:
+    active: system-datasource
+  application:
+    name: WebfluxApp
+  cache:
+    type: redis
+  redis:
+    host: 192.168.0.111
+    port: 6379
+    database: 0
+    client-type: lettuce
+    client-name: ${spring.application.name}-Cache
+    timeout: PT3S
+    connect-timeout: PT3S
+    lettuce:
+      pool:
+        max-wait: 3000
+        max-idle: 8 #电脑核数乘以 2
+        max-active: 8 #电脑核数乘以 2
+        min-idle: 1
+        time-between-eviction-runs: PT1M
+jwt:
+  secretKey: abcdefghijklmnopqrstuvwxyz0123456789
+  validityInMills: 1_800_000

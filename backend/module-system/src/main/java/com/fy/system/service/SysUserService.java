@@ -7,10 +7,15 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
+import org.springframework.data.relational.core.query.Criteria;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -36,11 +41,15 @@ public class SysUserService extends BaseService {
     }
 
     public Flux<SysUser> list(SysUser sysUser, Pageable pageable){
+        List<Criteria> criterias = new ArrayList<>();
+        if(StringUtils.hasText(sysUser.getAccount())){
+            criterias.add(like("account", sysUser.getAccount()));
+        }
         return r2dbcEntityTemplate.select(SysUser.class)
                 .matching(
                     query(
                         pageable,
-                        like("account", sysUser.getAccount())
+                        criterias.toArray(new Criteria[0])
                     )
                 )
                 .all();

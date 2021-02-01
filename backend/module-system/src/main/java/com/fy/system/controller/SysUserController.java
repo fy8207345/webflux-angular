@@ -6,6 +6,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -17,7 +18,7 @@ public class SysUserController {
 
     private final @NonNull SysUserService sysUserService;
 
-    @GetMapping
+    @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public Flux<SysUser> users(@RequestBody SysUser sysUser, @PageableDefault Pageable pageable){
         return sysUserService.list(sysUser, pageable);
     }
