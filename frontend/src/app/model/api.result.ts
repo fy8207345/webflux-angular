@@ -6,7 +6,4 @@ export class ApiResult<T>{
   msg: string;
   data: T;
 
-  success(){
-    return this.code === ApiResult.SUCCESS;
-  }
 }

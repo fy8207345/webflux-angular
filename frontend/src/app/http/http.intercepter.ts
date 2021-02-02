@@ -11,9 +11,7 @@ export class AppIntercepter implements HttpInterceptor{
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const url = req.url;
-    console.log('url', url)
     req.headers.append("UDID", AppConfig.udid);
-    console.log('headers', req.headers)
     if (!url.startsWith("assets/")){
       const baseUrl = AppConfig.settings.apiServer.baseUrl;
       const httpRequest = req.clone({

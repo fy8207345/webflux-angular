@@ -40,7 +40,6 @@ export class LoginComponent implements OnInit {
   getCaptcha() {
     this.http.get("captcha")
       .subscribe(res => {
-        console.log('res', res)
         const response = res as ApiResult<CaptchaResponse>;
         if (response.data.enabled === true){
           this.captchaPath = 'data:image/png;base64,' + response.data.image;
