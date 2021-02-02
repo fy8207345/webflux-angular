@@ -18,7 +18,6 @@ import { IndexComponent } from './index/index.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {AppRoutingModule} from './app-routing.module';
 import {AppIntercepter} from './http/http.intercepter';
-import {APP_BASE_HREF} from '@angular/common';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();

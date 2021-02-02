@@ -22,4 +22,7 @@ spring:
         time-between-eviction-runs: PT1M
 jwt:
   secretKey: abcdefghijklmnopqrstuvwxyz0123456789
-  validityInMills: 1_800_000
+  validityInMills: 1800000
+
+captcha:
+  enabled: true #是否启用验证码？
