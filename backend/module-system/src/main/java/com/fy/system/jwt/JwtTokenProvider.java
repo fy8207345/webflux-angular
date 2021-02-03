@@ -70,14 +70,27 @@ public class JwtTokenProvider {
                     .setSigningKey(secretKey)
                     .build()
                     .parseClaimsJws(token);
-            if(claimsJws.getBody().getExpiration().before(new Date())){
-                return false;
-            }
-            return true;
+            return !claimsJws.getBody().getExpiration().before(new Date());
         }catch (JwtException | IllegalArgumentException e){
             log.info("Invalid JWT token : {}", token);
             log.trace("Invalid JWT token trace.", e);
         }
         return false;
+    }
+
+    public String refreshToken(String token){
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        Date date = new Date();
+        Date validity = new Date(date.getTime() + jwtProperties.getValidityInMills());
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(date)
+                .setExpiration(validity)
+                .signWith(secretKey, SignatureAlgorithm.HS256)
+                .compact();
     }
 }
