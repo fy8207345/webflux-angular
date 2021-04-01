@@ -18,4 +18,9 @@ public class CaptchaResponse {
      * 是否启用验证码
      */
     private boolean enabled;
+
+    /**
+     * uuid
+     */
+    private String uuid;
 }

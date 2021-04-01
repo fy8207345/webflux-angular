@@ -22,9 +22,10 @@ public class CaptchaService {
         valueOperations = reactiveStringRedisTemplate.opsForValue();
     }
 
-    public Mono<Boolean> save(String token, String captcha){
+    public Mono<String> save(String token, String captcha){
         return valueOperations
-                .set(token, captcha, Duration.ofSeconds(60));
+                .set(token, captcha, Duration.ofSeconds(60))
+                .map(aBoolean -> captcha);
     }
 
     public Mono<String> get(String token){
