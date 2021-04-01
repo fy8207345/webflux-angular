@@ -4,8 +4,9 @@ html, body { height: 100%; width: 100%; padding: 0; margin: 0; display: flex; fl
 
 @import "~@angular/material/theming";
 
-$app-primary: mat-palette($mat-indigo, A200, A100, A400);
-$app-accent: mat-palette($mat-blue, A200, A100, A400);
+$app-primary: mat-palette($mat-deep-purple);
+$app-accent: mat-palette($mat-light-blue);
+$app-colorOnPrimary: white;
 $theme: mat-light-theme((
   color: (
     primary: $app-primary,

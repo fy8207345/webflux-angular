@@ -1,5 +1,8 @@
 @import "styles";
 
+.background-primary{
+  background-color: mat-color($primary);
+}
 .form-item-row{
   width: 100%;
 }
@@ -7,18 +10,15 @@
   height: 100%;
 }
 .login-form{
-  padding: 20px;
-  min-width: 685px;
-  border: mat-color($primary) 1px solid;
+  width: 100%;
+  padding: 50px;
   border-radius: 10px;
-  background-color: white;
 }
 .login-header{
   flex: 0 0 auto;
 }
 .login-content{
   flex: 1 0 auto;
-  background-color: #F0F0F0;
 }
 .login-footer{
   flex: 0 0 auto;

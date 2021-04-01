@@ -5,6 +5,7 @@
     </mat-toolbar>
   </div>
   <div class="login-content d-flex justify-content-center align-items-center">
+    <div class="background-primary" #primary style="display: none"></div>
     <form (ngSubmit)="onSubmit()" [formGroup]="loginForm" class="login-form">
       <mat-form-field class="form-item-row" appearance="outline">
         <mat-label>用户名</mat-label>

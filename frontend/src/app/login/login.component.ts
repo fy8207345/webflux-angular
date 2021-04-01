@@ -1,18 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AppConfig} from '../config/app.config';
 import {ApiResult} from '../model/api.result';
 import {CaptchaResponse} from '../model/captcha.response';
+import {MatToolbar} from "@angular/material/toolbar";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, AfterViewInit {
   title = AppConfig.settings.system.title;
   captchaPath: string;
+  primaryColor: string;
+
+  @ViewChild('primary') primary: ElementRef;
 
   constructor(private http: HttpClient) {
   }
@@ -30,7 +34,7 @@ export class LoginComponent implements OnInit {
     this.loginForm.statusChanges.subscribe(status => {
 
     })
-    this.getCaptcha()
+
   }
 
   onSubmit(){
@@ -38,7 +42,7 @@ export class LoginComponent implements OnInit {
   }
 
   getCaptcha() {
-    this.http.get("captcha")
+    this.http.get("captcha?primary=" + this.primaryColor)
       .subscribe(res => {
         const response = res as ApiResult<CaptchaResponse>;
         if (response.data.enabled === true){
@@ -51,6 +55,11 @@ export class LoginComponent implements OnInit {
         this.captchaPath = ''
         console.log('error', error)
       })
+  }
+
+  ngAfterViewInit(): void {
+    this.primaryColor = getComputedStyle(this.primary.nativeElement).backgroundColor;
+    this.getCaptcha()
   }
 
 }
