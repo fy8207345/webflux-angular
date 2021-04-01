@@ -2,7 +2,7 @@ package com.fy.system.service;
 
 import com.fy.common.service.BaseService;
 import com.fy.system.model.SysUser;
-import com.fy.system.repository.SysUserRepository;
+import com.fy.system.repository.r2dbc.SysUserRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;

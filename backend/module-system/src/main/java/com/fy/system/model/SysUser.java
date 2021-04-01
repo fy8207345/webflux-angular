@@ -3,17 +3,17 @@ package com.fy.system.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fy.common.model.BaseModel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.keyvalue.annotation.KeySpace;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 @Table(value = "sys_user")
+@KeySpace("sys_user")
 public class SysUser extends BaseModel {
 
     @EqualsAndHashCode.Include
@@ -69,4 +69,6 @@ public class SysUser extends BaseModel {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
 }

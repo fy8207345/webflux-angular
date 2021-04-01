@@ -1,0 +1,22 @@
+spring:
+  profiles:
+    active: system-datasource
+  application:
+    name: WebfluxApp
+  cache:
+    type: redis
+  redis:
+    host: localhost
+    port: 16379
+    database: 0
+    client-type: lettuce
+    client-name: ${spring.application.name}-Cache
+    timeout: PT3S
+    connect-timeout: PT3S
+    lettuce:
+      pool:
+        max-wait: 3000
+        max-idle: 8 #电脑核数乘以 2
+        max-active: 8 #电脑核数乘以 2
+        min-idle: 1
+        time-between-eviction-runs: PT1M
