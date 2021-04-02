@@ -5,6 +5,8 @@ import {AppConfig} from '../config/app.config';
 import {ApiResult} from '../model/api.result';
 import {CaptchaResponse} from '../model/captcha.response';
 import {MatToolbar} from "@angular/material/toolbar";
+import {MatProgressBar} from "@angular/material/progress-bar";
+import {MatButton} from "@angular/material/button";
 
 @Component({
   selector: 'app-login',
@@ -15,8 +17,12 @@ export class LoginComponent implements OnInit, AfterViewInit {
   title = AppConfig.settings.system.title;
   captchaPath: string;
   primaryColor: string;
+  loading = false;
 
+  @ViewChild('progress') progress: MatProgressBar;
   @ViewChild('primary') primary: ElementRef;
+  @ViewChild('captcha') captcha: ElementRef;
+  @ViewChild('submit') submit: MatButton;
 
   constructor(private http: HttpClient) {
   }
@@ -31,14 +37,42 @@ export class LoginComponent implements OnInit, AfterViewInit {
   })
 
   ngOnInit(): void {
+
     this.loginForm.statusChanges.subscribe(status => {
-
+        this.submit.disabled = (status !== 'VALID');
     })
-
   }
 
   onSubmit(){
     console.log('form, ', this.loginForm.value)
+    this.loading = true;
+    this.setViewsEnabled(this.loading);
+    if (this.loginForm.valid){
+      this.http.post("system/login", this.loginForm.value)
+        .subscribe(result => {
+          console.log('logresult:', result)
+          this.loading = false;
+          this.setViewsEnabled(this.loading);
+        }, throwable => {
+          this.username.setErrors(Validators.required)
+          this.loading = false;
+          this.setViewsEnabled(this.loading);
+        });
+    }
+  }
+
+  setViewsEnabled(loading: boolean){
+    if (loading){
+      this.username.disable({onlySelf: true, emitEvent: false});
+      this.password.disable({onlySelf: true, emitEvent: false});
+      this.validateCode.disable({onlySelf: true, emitEvent: false});
+    }else{
+      this.username.enable({onlySelf: true, emitEvent: false});
+      this.password.enable({onlySelf: true, emitEvent: false});
+      this.validateCode.enable({onlySelf: true, emitEvent: false});
+    }
+    this.captcha.nativeElement.disabled = loading;
+    this.submit.disabled = loading;
   }
 
   getCaptcha() {
@@ -58,6 +92,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.submit.disabled = true;
     this.primaryColor = getComputedStyle(this.primary.nativeElement).backgroundColor;
     this.getCaptcha()
   }

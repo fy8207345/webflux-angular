@@ -38,7 +38,7 @@ public class JwtTokenProvider {
     }
 
     public String createToken(Authentication authentication){
-        String username = authentication.getName();
+        String username = authentication.getPrincipal().toString();
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Claims claims = Jwts.claims().setSubject(username);
         claims.put(AUTHORITIES_KEY, authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(",")));

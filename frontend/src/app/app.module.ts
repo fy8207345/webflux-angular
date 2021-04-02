@@ -18,6 +18,7 @@ import { IndexComponent } from './index/index.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {AppRoutingModule} from './app-routing.module';
 import {AppIntercepter} from './http/http.intercepter';
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -42,7 +43,8 @@ export function initializeApp(appConfig: AppConfig) {
     MatButtonModule,
     MatButtonToggleModule,
     AppRoutingModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatProgressBarModule
   ],
   providers: [
     AppConfig,

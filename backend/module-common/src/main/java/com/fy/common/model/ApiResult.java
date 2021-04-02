@@ -10,7 +10,10 @@ import lombok.NoArgsConstructor;
 public class ApiResult<T> {
 
     public static final int SUCCESS = 0;
-    public static final int ERROR = 1;
+    /**
+     * 默认错误码
+     */
+    public static final int DEFAULT_ERROR = 1;
 
     private int code;
     private String msg;
@@ -25,6 +28,10 @@ public class ApiResult<T> {
     }
 
     public static <T> ApiResult<T> error(String msg){
-        return new ApiResult<>(ERROR, msg, null);
+        return new ApiResult<>(DEFAULT_ERROR, msg, null);
+    }
+
+    public static <T> ApiResult<T> error(String msg, int code){
+        return new ApiResult<>(code, msg, null);
     }
 }

@@ -2,6 +2,7 @@ package com.fy.system.controller;
 
 import com.fy.system.filter.JwtTokenAuthenticationFilter;
 import com.fy.system.jwt.JwtTokenProvider;
+import com.fy.system.model.LoginForm;
 import com.fy.system.model.SysUser;
 import io.jsonwebtoken.lang.Maps;
 import lombok.RequiredArgsConstructor;
@@ -31,10 +32,10 @@ public class SysLoginController {
     private final ReactiveAuthenticationManager authenticationManager;
 
     @PostMapping
-    public Mono<ResponseEntity<?>> login(@RequestBody Mono<SysUser> authRequest){
+    public Mono<ResponseEntity<?>> login(@RequestBody Mono<LoginForm> authRequest){
         return authRequest
             .flatMap(login -> authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(login.getAccount(), login.getPassword())))
+                    new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword())))
             .map(jwtTokenProvider::createToken)
             .map(jwt -> {
                 HttpHeaders httpHeaders = new HttpHeaders();

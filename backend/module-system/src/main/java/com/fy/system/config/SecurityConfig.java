@@ -1,5 +1,7 @@
 package com.fy.system.config;
 
+import com.fy.system.auth.ReactiveAuthenticationManagerImpl;
+import com.fy.system.auth.ReactiveUserDetailServiceImpl;
 import com.fy.system.controller.SysCaptchaController;
 import com.fy.system.controller.SysLoginController;
 import com.fy.system.filter.JwtTokenAuthenticationFilter;
@@ -8,20 +10,14 @@ import com.fy.system.repository.r2dbc.SysUserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
-import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository;
-import org.springframework.util.ObjectUtils;
-
-import java.util.ArrayList;
 
 @Configuration
 @EnableReactiveMethodSecurity
@@ -48,23 +44,11 @@ public class SecurityConfig {
 
     @Bean
     public ReactiveAuthenticationManager reactiveAuthenticationManager(ReactiveUserDetailsService userDetailsService, PasswordEncoder passwordEncoder){
-        UserDetailsRepositoryReactiveAuthenticationManager authenticationManager = new UserDetailsRepositoryReactiveAuthenticationManager(userDetailsService);
-        authenticationManager.setPasswordEncoder(passwordEncoder);
-        return authenticationManager;
+        return new ReactiveAuthenticationManagerImpl(userDetailsService, passwordEncoder);
     }
 
     @Bean
     public ReactiveUserDetailsService userDetailsService(SysUserRepository sysUserRepository){
-        return (username) -> sysUserRepository.findFirstByAccount(username)
-                .filter(sysUser -> {
-                    if(ObjectUtils.isEmpty(sysUser)){
-                        throw new UsernameNotFoundException("账号不存在");
-                    }
-                    return true;
-                })
-                .map(sysUser -> User.withUsername(username)
-                        .password(sysUser.getPassword())
-                        .authorities(new ArrayList<>())
-                        .build());
+        return new ReactiveUserDetailServiceImpl(sysUserRepository);
     }
 }

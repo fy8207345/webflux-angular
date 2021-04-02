@@ -3,6 +3,7 @@
     <mat-toolbar color="primary">
       <span>{{title}}</span>
     </mat-toolbar>
+    <mat-progress-bar *ngIf="loading" #progress mode="indeterminate"></mat-progress-bar>
   </div>
   <div class="login-content d-flex justify-content-center align-items-center">
     <div class="background-primary" #primary style="display: none"></div>
@@ -15,7 +16,10 @@
         <button mat-button *ngIf="username.value" matSuffix mat-icon-button aria-label="Clear" (click)="username.setValue('')">
           <mat-icon>close</mat-icon>
         </button>
-        <mat-hint align="start"><strong></strong></mat-hint>
+        <mat-hint align="start">*用户名必须是字母</mat-hint>
+        <mat-error *ngIf="username.hasError('required')">
+
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field class="form-item-row" appearance="outline">
@@ -26,6 +30,7 @@
         <button mat-button *ngIf="password.value" matSuffix mat-icon-button aria-label="Clear" (click)="password.setValue('')">
           <mat-icon>close</mat-icon>
         </button>
+        <mat-hint align="start"><strong>密码</strong></mat-hint>
       </mat-form-field>
 
       <table class="form-item-row" cellspacing="0">
@@ -42,13 +47,13 @@
             </mat-form-field>
           </td>
           <td width="50%" class="d-flex align-items-start">
-            <img [src]="captchaPath" style="margin: 0.25em 0;" (click)="getCaptcha()">
+            <img #captcha [src]="captchaPath" style="margin: 0.25em 0;" (click)="getCaptcha()">
           </td>
         </tr>
       </table>
 
       <div class="form-item-row d-flex justify-content-center">
-        <button mat-raised-button color="primary" [disabled]="!loginForm.valid" style="width: 100%;">登录</button>
+        <button #submit mat-raised-button color="primary" style="width: 100%;">登录</button>
       </div>
     </form>
   </div>
