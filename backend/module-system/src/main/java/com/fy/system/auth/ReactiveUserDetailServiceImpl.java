@@ -1,14 +1,14 @@
 package com.fy.system.auth;
 
-import com.fy.system.exception.BaseException;
+import com.fy.system.exception.AuthFailException;
 import com.fy.system.repository.r2dbc.SysUserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import reactor.core.publisher.Mono;
+
+import java.util.Collections;
 
 @RequiredArgsConstructor
 public class ReactiveUserDetailServiceImpl implements ReactiveUserDetailsService {
@@ -18,10 +18,11 @@ public class ReactiveUserDetailServiceImpl implements ReactiveUserDetailsService
     @Override
     public Mono<UserDetails> findByUsername(String username) {
         return sysUserRepository.findFirstByAccount(username)
-                .switchIfEmpty(Mono.error(new BaseException("用户/密码不正确", HttpStatus.UNAUTHORIZED.value())))
+                .switchIfEmpty(Mono.error(new AuthFailException()))
                 .map(sysUser -> User
                         .withUsername(sysUser.getAccount())
                         .password(sysUser.getPassword())
+                        .authorities(Collections.emptyList())
                         .build());
     }
 

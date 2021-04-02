@@ -19,6 +19,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {AppRoutingModule} from './app-routing.module';
 import {AppIntercepter} from './http/http.intercepter';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -44,7 +45,8 @@ export function initializeApp(appConfig: AppConfig) {
     MatButtonToggleModule,
     AppRoutingModule,
     MatSidenavModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatSnackBarModule
   ],
   providers: [
     AppConfig,

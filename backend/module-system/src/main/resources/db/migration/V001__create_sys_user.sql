@@ -14,4 +14,4 @@ create table sys_user (
     update_date datetime,
     version int
 ) engine = innodb charset = utf8mb4 collate = utf8mb4_0900_ai_ci;
-insert into sys_user values (1, "admin", "$2a$10$rgQgaOJPiMecL7HnU75tGOTBFUFlQnc8xM122/DI5FVtSkCvwH2XG", "Enabled", "管理员", "logo.png", "2316696377@qq.com", "18392396424", "Male", "admin", "admin", "2021-02-01 16:36:09", "2021-02-01 16:36:09", 0);
+insert into sys_user values (1, 'admin', '$2a$10$rgQgaOJPiMecL7HnU75tGOTBFUFlQnc8xM122/DI5FVtSkCvwH2XG', 'Enabled', '管理员', 'logo.png', '2316696377@qq.com', '18392396424', 'Male', 'admin', 'admin', '2021-02-01 16:36:09', '2021-02-01 16:36:09', 0);

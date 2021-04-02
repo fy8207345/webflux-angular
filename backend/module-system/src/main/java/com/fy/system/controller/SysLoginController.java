@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.Map;
 
 @RestController
@@ -34,6 +35,7 @@ public class SysLoginController {
     @PostMapping
     public Mono<ResponseEntity<?>> login(@RequestBody Mono<LoginForm> authRequest){
         return authRequest
+                .delayElement(Duration.ofSeconds(5))
             .flatMap(login -> authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword())))
             .map(jwtTokenProvider::createToken)

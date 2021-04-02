@@ -3,59 +3,61 @@
     <mat-toolbar color="primary">
       <span>{{title}}</span>
     </mat-toolbar>
-    <mat-progress-bar *ngIf="loading" #progress mode="indeterminate"></mat-progress-bar>
   </div>
-  <div class="login-content d-flex justify-content-center align-items-center">
+  <div class="login-content ">
+    <mat-progress-bar *ngIf="loading" #progress mode="indeterminate"></mat-progress-bar>
     <div class="background-primary" #primary style="display: none"></div>
-    <form (ngSubmit)="onSubmit()" [formGroup]="loginForm" class="login-form">
-      <mat-form-field class="form-item-row" appearance="outline">
-        <mat-label>用户名</mat-label>
-        <label>
-          <input matInput type="text" [formControl]="username">
-        </label>
-        <button mat-button *ngIf="username.value" matSuffix mat-icon-button aria-label="Clear" (click)="username.setValue('')">
-          <mat-icon>close</mat-icon>
-        </button>
-        <mat-hint align="start">*用户名必须是字母</mat-hint>
-        <mat-error *ngIf="username.hasError('required')">
+    <div class="h-100 d-flex justify-content-center align-items-center flex-column">
+      <form (ngSubmit)="onSubmit()" [formGroup]="loginForm" class="login-form" [attr.disabled]="formDisabled()">
+        <mat-form-field #usernamefield class="form-item-row" appearance="outline">
+          <mat-label>用户名</mat-label>
+          <label>
+            <input matInput type="text" [formControl]="username" [attr.disabled]="formDisabled()" >
+          </label>
+          <button mat-button *ngIf="username.value" [attr.disabled]="formDisabled()" matSuffix mat-icon-button aria-label="Clear" (click)="username.setValue('')">
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-hint align="start">*用户名必须是字母</mat-hint>
+          <mat-error *ngIf="username.hasError('required')">
 
-        </mat-error>
-      </mat-form-field>
+          </mat-error>
+        </mat-form-field>
 
-      <mat-form-field class="form-item-row" appearance="outline">
-        <mat-label>密码</mat-label>
-        <label>
-          <input matInput type="password" [formControl]="password">
-        </label>
-        <button mat-button *ngIf="password.value" matSuffix mat-icon-button aria-label="Clear" (click)="password.setValue('')">
-          <mat-icon>close</mat-icon>
-        </button>
-        <mat-hint align="start"><strong>密码</strong></mat-hint>
-      </mat-form-field>
+        <mat-form-field #passwordfield class="form-item-row" appearance="outline">
+          <mat-label>密码</mat-label>
+          <label>
+            <input matInput type="password" [formControl]="password" [attr.disabled]="formDisabled()" >
+          </label>
+          <button mat-button *ngIf="password.value" [attr.disabled]="formDisabled()"  matSuffix mat-icon-button aria-label="Clear" (click)="password.setValue('')">
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-hint align="start"><strong>密码</strong></mat-hint>
+        </mat-form-field>
 
-      <table class="form-item-row" cellspacing="0">
-        <tr>
-          <td width="50%">
-            <mat-form-field class="form-item-row" appearance="outline">
-              <mat-label>验证码</mat-label>
-              <label>
-                <input matInput type="text" [formControl]="validateCode">
-              </label>
-              <button mat-button *ngIf="validateCode.value" matSuffix mat-icon-button aria-label="Clear" (click)="validateCode.setValue('')">
-                <mat-icon>close</mat-icon>
-              </button>
-            </mat-form-field>
-          </td>
-          <td width="50%" class="d-flex align-items-start">
-            <img #captcha [src]="captchaPath" style="margin: 0.25em 0;" (click)="getCaptcha()">
-          </td>
-        </tr>
-      </table>
+        <table class="form-item-row" cellspacing="0">
+          <tr>
+            <td width="50%">
+              <mat-form-field class="form-item-row" appearance="outline">
+                <mat-label>验证码</mat-label>
+                <label>
+                  <input matInput type="text" [formControl]="validateCode" [attr.disabled]="formDisabled()" >
+                </label>
+                <button mat-button *ngIf="validateCode.value" [attr.disabled]="formDisabled()" matSuffix mat-icon-button aria-label="Clear" (click)="validateCode.setValue('')">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </td>
+            <td width="50%" class="d-flex align-items-start">
+              <img #captcha [src]="captchaPath" [attr.disabled]="formDisabled()" style="margin: 0.25em 0;" (click)="getCaptcha()">
+            </td>
+          </tr>
+        </table>
 
-      <div class="form-item-row d-flex justify-content-center">
-        <button #submit mat-raised-button color="primary" style="width: 100%;">登录</button>
-      </div>
-    </form>
+        <div class="form-item-row d-flex justify-content-center">
+          <button #submit mat-raised-button color="primary" [disabled]="submitDiabled()" style="width: 100%;">登录</button>
+        </div>
+      </form>
+    </div>
   </div>
   <div class="login-footer d-flex justify-content-end align-items-center">
     Footer

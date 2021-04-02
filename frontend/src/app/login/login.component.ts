@@ -4,9 +4,14 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AppConfig} from '../config/app.config';
 import {ApiResult} from '../model/api.result';
 import {CaptchaResponse} from '../model/captcha.response';
-import {MatToolbar} from "@angular/material/toolbar";
 import {MatProgressBar} from "@angular/material/progress-bar";
 import {MatButton} from "@angular/material/button";
+import {LoginResponse} from "../model/login.response";
+import {Router} from "@angular/router";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatFormField} from "@angular/material/form-field";
+import "rxjs/operators";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-login',
@@ -23,8 +28,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
   @ViewChild('primary') primary: ElementRef;
   @ViewChild('captcha') captcha: ElementRef;
   @ViewChild('submit') submit: MatButton;
+  @ViewChild('usernamefield') usernameFiled: MatFormField;
+  @ViewChild('passwordfield') passwordField: MatFormField;
 
-  constructor(private http: HttpClient) {
+  constructor(private _http: HttpClient, private _router: Router, private _snackBar: MatSnackBar) {
   }
 
   username = new FormControl('', [Validators.required]);
@@ -46,41 +53,33 @@ export class LoginComponent implements OnInit, AfterViewInit {
   onSubmit(){
     console.log('form, ', this.loginForm.value)
     this.loading = true;
-    this.setViewsEnabled(this.loading);
-    if (this.loginForm.valid){
-      this.http.post("system/login", this.loginForm.value)
-        .subscribe(result => {
-          console.log('logresult:', result)
+    if(this.loginForm.valid){
+      this._http.post("system/login", this.loginForm.value)
+        .pipe(map(res => new ApiResult<LoginResponse>(res)))
+        .subscribe(response => {
           this.loading = false;
-          this.setViewsEnabled(this.loading);
+          if (response.success()){
+            this._router.navigateByUrl("index");
+          }else{
+            this._snackBar.open(response.msg, null, {duration: 3000});
+          }
+          console.log('logresult:', response)
         }, throwable => {
-          this.username.setErrors(Validators.required)
+          console.log('error ', throwable)
+          this._snackBar.open(throwable);
           this.loading = false;
-          this.setViewsEnabled(this.loading);
         });
     }
   }
 
-  setViewsEnabled(loading: boolean){
-    if (loading){
-      this.username.disable({onlySelf: true, emitEvent: false});
-      this.password.disable({onlySelf: true, emitEvent: false});
-      this.validateCode.disable({onlySelf: true, emitEvent: false});
-    }else{
-      this.username.enable({onlySelf: true, emitEvent: false});
-      this.password.enable({onlySelf: true, emitEvent: false});
-      this.validateCode.enable({onlySelf: true, emitEvent: false});
-    }
-    this.captcha.nativeElement.disabled = loading;
-    this.submit.disabled = loading;
-  }
 
   getCaptcha() {
-    this.http.get("captcha?primary=" + this.primaryColor)
+    this._http.get<ApiResult<CaptchaResponse>>("captcha?primary=" + this.primaryColor)
+      .pipe(map(res => new ApiResult<CaptchaResponse>(res)))
       .subscribe(res => {
-        const response = res as ApiResult<CaptchaResponse>;
-        if (response.data.enabled === true){
-          this.captchaPath = 'data:image/png;base64,' + response.data.image;
+        // const response = res as ApiResult<CaptchaResponse>;
+        if (res.data.enabled === true){
+          this.captchaPath = 'data:image/png;base64,' + res.data.image;
         }else{
           this.validateCode.clearValidators();
           this.loginForm.removeControl("code")
@@ -91,8 +90,21 @@ export class LoginComponent implements OnInit, AfterViewInit {
       })
   }
 
+  submitDiabled(): boolean{
+    if(this.loading){
+      return true;
+    }
+    return !this.loginForm.valid;
+  }
+
+  formDisabled(): any{
+    if(this.loading){
+      return true;
+    }
+    return null;
+  }
+
   ngAfterViewInit(): void {
-    this.submit.disabled = true;
     this.primaryColor = getComputedStyle(this.primary.nativeElement).backgroundColor;
     this.getCaptcha()
   }

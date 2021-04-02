@@ -1,4 +1,4 @@
-package com.fy.system.exception;
+package com.fy.system.exception.handler;
 
 import org.springframework.boot.autoconfigure.web.WebProperties;
 import org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler;
