@@ -8,6 +8,6 @@ import reactor.core.publisher.Mono;
 import java.util.UUID;
 
 @Repository
-public interface SysUserRepository extends BaseRepository<SysUser, Long> {
+public interface SysUserRepository extends BaseRepository<SysUser, String> {
     Mono<SysUser> findFirstByAccount(String account);
 }

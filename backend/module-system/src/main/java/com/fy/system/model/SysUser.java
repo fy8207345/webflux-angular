@@ -18,7 +18,7 @@ public class SysUser extends BaseModel {
 
     @EqualsAndHashCode.Include
     @Id
-    private Long id;
+    private String id;
 
     /**
      * 用户名

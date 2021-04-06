@@ -8,7 +8,7 @@ import reactor.core.publisher.Flux;
 import java.util.List;
 
 @Repository
-public interface SysUserRedisRepository extends KeyValueRepository<SysUser, Long> {
+public interface SysUserRedisRepository extends KeyValueRepository<SysUser, String> {
 
     List<SysUser> findByAccountEquals(String account);
 }

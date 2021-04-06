@@ -14,12 +14,14 @@ import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
-import { IndexComponent } from './index/index.component';
+import { HomeComponent } from './home/home.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {AppRoutingModule} from './app-routing.module';
 import {AppIntercepter} from './http/http.intercepter';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {AuthService} from "./service/auth.service";
+import {AuthGuardService} from "./guards/auth.guard.service";
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -29,7 +31,7 @@ export function initializeApp(appConfig: AppConfig) {
   declarations: [
     AppComponent,
     LoginComponent,
-    IndexComponent
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +61,11 @@ export function initializeApp(appConfig: AppConfig) {
       provide: HTTP_INTERCEPTORS,
       useClass: AppIntercepter,
       multi: true
-    }
+    },
+    {
+      provide: AuthService,
+    },
+    AuthGuardService
   ],
   bootstrap: [AppComponent]
 })

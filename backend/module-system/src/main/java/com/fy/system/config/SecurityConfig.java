@@ -46,9 +46,4 @@ public class SecurityConfig {
     public ReactiveAuthenticationManager reactiveAuthenticationManager(ReactiveUserDetailsService userDetailsService, PasswordEncoder passwordEncoder){
         return new ReactiveAuthenticationManagerImpl(userDetailsService, passwordEncoder);
     }
-
-    @Bean
-    public ReactiveUserDetailsService userDetailsService(SysUserRepository sysUserRepository){
-        return new ReactiveUserDetailServiceImpl(sysUserRepository);
-    }
 }

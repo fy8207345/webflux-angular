@@ -11,6 +11,8 @@ import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatFormField} from "@angular/material/form-field";
 import {map} from "rxjs/operators";
+import {AuthService} from "../service/auth.service";
+import {Constants} from "../constants";
 
 @Component({
   selector: 'app-login',
@@ -30,7 +32,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   @ViewChild('usernamefield') usernameFiled: MatFormField;
   @ViewChild('passwordfield') passwordField: MatFormField;
 
-  constructor(private _http: HttpClient, private _router: Router, private _snackBar: MatSnackBar) {
+  constructor(private _http: HttpClient, private _router: Router, private _snackBar: MatSnackBar, private authService: AuthService) {
   }
 
   username = new FormControl('', [Validators.required]);
@@ -58,9 +60,11 @@ export class LoginComponent implements OnInit, AfterViewInit {
         .subscribe(response => {
           this.loading = false;
           if (response.success()){
-            this._router.navigateByUrl("index");
+            this.authService.token = response.data.token;
+            this._router.navigateByUrl(Constants.HOME_PATH);
           } else if(response.code === 1001){
             this.validateCode.setErrors({msg: response.msg});
+            this.getCaptcha();
           } else{
             this._snackBar.open(response.msg, null, {duration: 3000});
           }

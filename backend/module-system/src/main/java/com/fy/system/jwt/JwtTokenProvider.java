@@ -1,5 +1,6 @@
 package com.fy.system.jwt;
 
+import com.fy.system.auth.AuthenticatedAuthentication;
 import com.fy.system.properties.JwtProperties;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 public class JwtTokenProvider {
 
     private static final String AUTHORITIES_KEY = "roles";
+    private static final String USER_KEY = "user";
     @Autowired
     private JwtProperties jwtProperties;
 
@@ -38,10 +40,12 @@ public class JwtTokenProvider {
     }
 
     public String createToken(Authentication authentication){
-        String username = authentication.getPrincipal().toString();
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        AuthenticatedAuthentication authenticatedAuthentication = (AuthenticatedAuthentication) authentication;
+        String username = authenticatedAuthentication.getPrincipal().toString();
+        Collection<? extends GrantedAuthority> authorities = authenticatedAuthentication.getAuthorities();
         Claims claims = Jwts.claims().setSubject(username);
         claims.put(AUTHORITIES_KEY, authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(",")));
+        claims.put(USER_KEY, authenticatedAuthentication.getSysUser());
 
         Date date = new Date();
         Date validity = new Date(date.getTime() + jwtProperties.getValidityInMills());
