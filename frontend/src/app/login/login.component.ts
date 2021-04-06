@@ -13,6 +13,7 @@ import {MatFormField} from "@angular/material/form-field";
 import {map} from "rxjs/operators";
 import {AuthService} from "../service/auth.service";
 import {Constants} from "../constants";
+import {JwtToken} from "../model/jwt.token";
 
 @Component({
   selector: 'app-login',
@@ -33,6 +34,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   @ViewChild('passwordfield') passwordField: MatFormField;
 
   constructor(private _http: HttpClient, private _router: Router, private _snackBar: MatSnackBar, private authService: AuthService) {
+
   }
 
   username = new FormControl('', [Validators.required]);
@@ -49,6 +51,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
     this.loginForm.statusChanges.subscribe(status => {
         this.submit.disabled = (status !== 'VALID');
     })
+
+    if(this.authService.isLoggedIn()){
+      this._router.navigate([Constants.HOME_PATH])
+    }
   }
 
   onSubmit(){
@@ -60,7 +66,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
         .subscribe(response => {
           this.loading = false;
           if (response.success()){
-            this.authService.token = response.data.token;
+            this.authService.token = new JwtToken(response.data);
             this._router.navigateByUrl(Constants.HOME_PATH);
           } else if(response.code === 1001){
             this.validateCode.setErrors({msg: response.msg});

@@ -21,8 +21,8 @@ export class AppRoutingModule {
   constructor(private router: Router, private authService: AuthService, private _snackBar: MatSnackBar, private route: ActivatedRoute) {
     this.router.errorHandler = (error: any) => {
       console.log('error', error)
-      const path = (this.authService.token === null ? Constants.LOGIN_PATH : Constants.HOME_PATH)
-      const action = (this.authService.token === null ? "跳到登录页" : "跳到首页");
+      const path = (this.authService.isLoggedIn() ? Constants.HOME_PATH : Constants.LOGIN_PATH)
+      const action = (this.authService.isLoggedIn() ? "跳到首页" : "跳到登录页");
       this._snackBar.open("找不到指定的路径 : " , action, {duration: -1})
         .onAction()
         .subscribe(value => {

@@ -6,7 +6,6 @@ import com.fy.system.jwt.JwtTokenProvider;
 import com.fy.system.model.LoginForm;
 import com.fy.system.properties.CaptchaProperties;
 import com.fy.system.service.CaptchaService;
-import io.jsonwebtoken.lang.Maps;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
@@ -50,6 +49,6 @@ public class SysLoginController {
             .flatMap(login -> authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword())))
             .map(jwtTokenProvider::createToken)
-            .map(jwt -> ApiResult.success(Maps.of("token", jwt).build()));
+            .map(ApiResult::success);
     }
 }

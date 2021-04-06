@@ -39,7 +39,7 @@ public class JwtTokenProvider {
         secretKey = Keys.hmacShaKeyFor(s.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String createToken(Authentication authentication){
+    public JwtToken createToken(Authentication authentication){
         AuthenticatedAuthentication authenticatedAuthentication = (AuthenticatedAuthentication) authentication;
         String username = authenticatedAuthentication.getPrincipal().toString();
         Collection<? extends GrantedAuthority> authorities = authenticatedAuthentication.getAuthorities();
@@ -49,12 +49,13 @@ public class JwtTokenProvider {
 
         Date date = new Date();
         Date validity = new Date(date.getTime() + jwtProperties.getValidityInMills());
-        return Jwts.builder()
+        String token = Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(date)
                 .setExpiration(validity)
                 .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
+        return JwtToken.builder().token(token).expireTime(validity).build();
     }
 
     public Authentication getAuthentication(String token){

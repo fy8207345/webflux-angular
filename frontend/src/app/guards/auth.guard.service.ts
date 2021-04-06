@@ -18,7 +18,7 @@ export class AuthGuardService implements CanActivate, CanActivateChild{
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if(this.authService.token === null){
+    if(!this.authService.isLoggedIn()){
       console.log('not logged in, redirect to login page!')
       this._router.navigate([Constants.LOGIN_PATH]);
       return false;
@@ -27,7 +27,7 @@ export class AuthGuardService implements CanActivate, CanActivateChild{
   }
 
   canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if(this.authService.token === null){
+    if(!this.authService.isLoggedIn()){
       console.log('not logged in, redirect to login page!')
       this._router.navigate([Constants.LOGIN_PATH]);
       return false;

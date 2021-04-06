@@ -13,8 +13,8 @@ export class AppIntercepter implements HttpInterceptor{
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const url = req.url;
     req.headers.append("UDID", AppConfig.udid);
-    if(this.authService.token !== null){
-      req.headers.append("Authorization", "Bearer " + this.authService.token);
+    if(this.authService.isLoggedIn()){
+      req.headers.append("Authorization", "Bearer " + this.authService.token.token);
     }
     if (!url.startsWith("assets/")){
       const baseUrl = AppConfig.settings.apiServer.baseUrl;
