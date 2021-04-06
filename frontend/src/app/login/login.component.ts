@@ -10,7 +10,6 @@ import {LoginResponse} from "../model/login.response";
 import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatFormField} from "@angular/material/form-field";
-import "rxjs/operators";
 import {map} from "rxjs/operators";
 
 @Component({
@@ -60,7 +59,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
           this.loading = false;
           if (response.success()){
             this._router.navigateByUrl("index");
-          }else{
+          } else if(response.code === 1001){
+            this.validateCode.setErrors({msg: response.msg});
+          } else{
             this._snackBar.open(response.msg, null, {duration: 3000});
           }
           console.log('logresult:', response)

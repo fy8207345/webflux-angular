@@ -14,6 +14,7 @@ public class ApiResult<T> {
      * 默认错误码
      */
     public static final int DEFAULT_ERROR = 1;
+    public static final int ERROR_CAPTCHA = 1001;
 
     private int code;
     private String msg;
