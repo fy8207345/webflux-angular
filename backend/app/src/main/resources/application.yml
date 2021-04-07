@@ -38,5 +38,5 @@ server:
 logging:
   charset:
     console: utf-8
-  level:
-    root: debug
+  file:
+    path: D:/logs/webflux-angular
