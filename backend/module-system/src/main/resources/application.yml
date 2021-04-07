@@ -35,10 +35,6 @@ server:
   shutdown: graceful
   compression:
     enabled: true
-  servlet:
-    context-path: /webflux
-    jsp:
-      registered: false
 logging:
   charset:
     console: utf-8
