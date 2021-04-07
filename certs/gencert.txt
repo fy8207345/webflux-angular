@@ -1,0 +1,8 @@
+#生成密钥对
+keytool -genkeypair -alias ca -keyalg RSA -validity 3650 -keystore ca.keystore -storepass keystore
+#查看
+keytool.exe -list -keystore ca.keystore -v -storepass keystore
+# 导出密钥到证书文件
+keytool -export -alias ca -file ca.cer -keystore ca.keystore -storepass keystore
+# keystore转换成p12文件
+keytool -importkeystore -srckeystore ca.keystore -destkeystore ca.p12 -deststoretype pkcs12 -storepass keystore

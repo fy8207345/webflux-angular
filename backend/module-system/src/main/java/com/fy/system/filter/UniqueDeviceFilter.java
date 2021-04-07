@@ -1,5 +1,6 @@
 package com.fy.system.filter;
 
+import com.google.common.collect.Lists;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
@@ -12,7 +13,9 @@ import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -31,9 +34,10 @@ public class UniqueDeviceFilter implements WebFilter {
                             .build())
             .build();
             exchange.getResponse()
-                    .addCookie(ResponseCookie.fromClientResponse(UNIQUE_DEVICE_HEAD_NAME, uniqueDviceId).build());
+                    .getHeaders()
+                    .put(UNIQUE_DEVICE_HEAD_NAME, Lists.newArrayList(uniqueDviceId));
         }
-        return chain.filter(exchange);
+        return chain.filter(exchange).checkpoint("observed error", true);
     }
 
     public static String getUniqueDviceId(ServerHttpRequest request){

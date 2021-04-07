@@ -26,3 +26,21 @@ jwt:
 
 captcha:
   enabled: true #是否启用验证码？
+
+server:
+  forward-headers-strategy: framework
+  netty:
+    connection-timeout: 3000
+  server-header: reactive-netty
+  shutdown: graceful
+  compression:
+    enabled: true
+  servlet:
+    context-path: /webflux
+    jsp:
+      registered: false
+logging:
+  charset:
+    console: utf-8
+  level:
+    root: debug

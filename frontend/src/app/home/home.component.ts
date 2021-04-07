@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
-    this.http.get("")
+    this.http.get("", )
       .pipe(map(res => new ApiResult(res)))
       .subscribe(res => {
         console.log('success', res)

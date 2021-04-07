@@ -9,6 +9,7 @@ import com.fy.system.jwt.JwtTokenProvider;
 import com.fy.system.repository.r2dbc.SysUserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
@@ -36,6 +37,7 @@ public class SecurityConfig {
                 .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
                 .authorizeExchange(it -> it.pathMatchers(SysCaptchaController.MAPPING_PATH + "/**").permitAll()
                         .pathMatchers(SysLoginController.MAPPING_PATH + "/**").permitAll()
+                        .pathMatchers(HttpMethod.OPTIONS).permitAll() // preflight请求，不做验证
                         .pathMatchers("/**")
                         .authenticated())
                 .addFilterAt(new JwtTokenAuthenticationFilter(jwtTokenProvider), SecurityWebFiltersOrder.HTTP_BASIC)
