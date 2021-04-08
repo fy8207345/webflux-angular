@@ -19,3 +19,4 @@ $color: mat-get-color-config($theme);
 
 $primary: map-get($color, primary);
 $accent: map-get($color, accent);
+$colorOnPrimary: $app-colorOnPrimary

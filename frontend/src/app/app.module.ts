@@ -22,6 +22,7 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {AuthService} from "./service/auth.service";
 import {AuthGuardService} from "./guards/auth.guard.service";
+import { AppNavbarComponent } from './app-navbar/app-navbar.component';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -31,7 +32,8 @@ export function initializeApp(appConfig: AppConfig) {
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    AppNavbarComponent
   ],
   imports: [
     BrowserModule,

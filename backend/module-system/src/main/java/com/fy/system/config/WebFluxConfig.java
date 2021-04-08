@@ -25,7 +25,7 @@ public class WebFluxConfig implements WebFluxConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins(CorsConfiguration.ALL)
                 .allowedMethods(CorsConfiguration.ALL)
-                .allowedHeaders("UDID", HttpHeaders.AUTHORIZATION)
+                .allowedHeaders("UDID", HttpHeaders.AUTHORIZATION, HttpHeaders.CONTENT_TYPE)
                 .maxAge(10);
     }
 
